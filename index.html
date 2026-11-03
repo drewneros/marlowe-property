@@ -96,20 +96,42 @@ a{color:inherit}
 @media (min-width:900px){.sec h2{font-size:52px;line-height:56px}}
 .sec p{max-width:52ch;opacity:.86}
 
-/* Stats */
-.stats{width:100%;padding:72px var(--pad)}
-.stats-in{max-width:1040px;margin:0 auto;display:grid;gap:32px;align-items:center}
-.stats ul{list-style:none;padding:0;display:grid;gap:28px}
-.stats b{display:block;font:200 56px/1 var(--display);letter-spacing:-.02em;margin-bottom:8px}
-.stats span{font-size:14px;line-height:22px;font-weight:400;color:var(--grey)}
-.stats .eyebrow{margin-bottom:24px}
-.globe{position:relative;width:min(100%,340px);aspect-ratio:1;margin:0 auto}
-.globe svg{position:absolute}
-/* cobe draws grey; the filter maps white to --bg and dark dots to --accent */
-.globe canvas{width:100%;height:100%;display:block;opacity:0;transition:opacity .8s ease;filter:url(#globe-tint)}
-.globe canvas.on{opacity:1}
-.globe figcaption{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font-size:13px;line-height:20px;color:var(--grey)}
-@media (min-width:900px){.stats{padding:96px var(--pad)}.stats-in{grid-template-columns:1.1fr 1fr;gap:48px}.stats-in ul{grid-template-columns:1fr;gap:28px}.globe{width:min(100%,420px)}}
+/* Your sale, week by week: the line fills as you scroll (sits in the cover) */
+.process{width:100%;padding:88px var(--pad)}
+.process-in{max-width:1040px;margin:0 auto}
+.process h2{font:300 34px/40px var(--display);letter-spacing:-.015em;margin-bottom:14px;text-wrap:balance}
+.process .lead{max-width:52ch;opacity:.86;margin-bottom:48px}
+.weeks{position:relative;list-style:none;padding:0 0 0 36px;display:grid;gap:28px}
+.weeks::before,.weeks::after{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.weeks::after{background:var(--accent);transform-origin:top;transform:scaleY(var(--p,0))}
+.wk{position:relative}
+.wk::before{content:"";position:absolute;left:-31px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--line);transition:background .4s var(--ease-out),border-color .4s var(--ease-out)}
+.wk.hit::before{background:var(--accent);border-color:var(--accent)}
+.wk small{display:block;font:400 12px/16px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.wk h3{font:300 26px/32px var(--display);margin:4px 0 6px}
+.wk p{max-width:46ch;opacity:.86}
+@media (min-width:900px){
+  .process{padding:120px var(--pad)}
+  .process h2{font-size:52px;line-height:56px}
+  .weeks{grid-template-columns:repeat(5,1fr);padding:40px 0 0;gap:24px}
+  .weeks::before,.weeks::after{left:0;right:0;top:10px;bottom:auto;width:auto;height:2px}
+  .weeks::after{transform-origin:left;transform:scaleX(var(--p,0))}
+  .wk::before{left:0;top:-36px}
+}
+@media (prefers-reduced-motion:reduce){.weeks::after{transform:none}}
+
+/* Fees: the cost calculator, drag the price, see what you keep */
+.calc{display:grid;gap:24px;margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px}
+.calc label{display:block;font-weight:400;font-size:14px;color:var(--grey)}
+.calc output{display:block;font:200 44px/1.1 var(--display);letter-spacing:-.02em;margin:6px 0 4px}
+.calc output.sm{font-size:32px}
+.calc input[type=range]{width:100%;height:44px;accent-color:var(--accent);margin-bottom:12px;cursor:pointer}
+.lines{border-top:1px solid var(--line)}
+.lines div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.lines b{font-weight:400;font-variant-numeric:tabular-nums}
+.lines .net{font:300 26px/1.2 var(--display);border-bottom:0;padding-top:18px}
+.calc-src{font-size:13px;line-height:20px;font-weight:400;color:var(--grey);margin-top:16px}
+@media (min-width:900px){.calc{grid-template-columns:1fr 1fr;gap:56px;padding:44px}}
 
 /* Agent: photo and intro, after the listings */
 .agent{display:grid;gap:32px;align-items:center}
@@ -248,20 +270,17 @@ a{color:inherit}
       <div class="caption"><p>Let's walk through yours.</p><small>Alex Marlowe, Bronte</small></div>
     </div>
   </section>
-  <section class="stats cover" aria-label="Track record">
-    <div class="stats-in">
-      <div>
-        <ul>
-          <li><b>38</b><span>Homes sold around Bronte, last 12 months</span></li>
-          <li><b>21</b><span>Median days on market</span></li>
-          <li><b>1 hr</b><span>Callback on every enquiry</span></li>
-        </ul>
-      </div>
-      <figure class="globe">
-        <svg width="0" height="0" aria-hidden="true" focusable="false"><filter id="globe-tint" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="linear" slope="0.835" intercept="0.122"/><feFuncG type="linear" slope="0.706" intercept="0.239"/><feFuncB type="linear" slope="0.706" intercept="0.212"/></feComponentTransfer></filter></svg>
-        <canvas id="globe" role="img" aria-label="Dotted globe turning slowly, pin on Sydney"></canvas>
-        <figcaption>Based in Sydney</figcaption>
-      </figure>
+  <section class="process cover" id="process" aria-labelledby="process-h">
+    <div class="process-in">
+      <h2 id="process-h">Your sale, week by week.</h2>
+      <p class="lead">You always know what is happening and what comes next.</p>
+      <ol class="weeks">
+        <li class="wk"><small>Week 0</small><h3>Appraisal</h3><p>A written price range and every cost, within 48 hours.</p></li>
+        <li class="wk"><small>Week 1</small><h3>Ready</h3><p>Small fixes, styling, photos and a floor plan.</p></li>
+        <li class="wk"><small>Week 2</small><h3>Launch</h3><p>Online, signboard up, buyers on my list told first.</p></li>
+        <li class="wk"><small>Weeks 3 to 5</small><h3>Inspections</h3><p>Open homes, and a short report to you every Friday.</p></li>
+        <li class="wk"><small>Week 6</small><h3>Sold</h3><p>Offers, negotiation, contracts, keys.</p></li>
+      </ol>
     </div>
   </section>
 
@@ -300,20 +319,6 @@ a{color:inherit}
       <p class="sub">I'm Alex Marlowe. I sell homes around Bronte. Ring me and I'll give you a straight view on what yours could fetch.</p>
       <a class="btn" href="#sell">Book a free appraisal</a>
       <p class="trust">Alex Marlowe, Bronte NSW. <a href="#fees">Fees explained upfront</a>. <a href="mailto:alex@marloweproperty.com.au">alex@marloweproperty.com.au</a></p>
-    </div>
-  </section>
-
-  <section class="sec" id="area" aria-labelledby="area-h">
-    <h2 id="area-h">Where these homes are.</h2>
-    <p>Pins sit on the suburb, not the street. Tap a pin to see the home.</p>
-    <div class="map-box">
-      <div id="map" aria-label="Map of the three homes in Bronte, Clovelly and Waverley"></div>
-      <div class="map-card" aria-live="polite">
-        <p class="eyebrow" id="map-st">For sale</p>
-        <h3 id="map-h">Bronte, NSW 2024</h3>
-        <p id="map-p">Auction Sat 14 Nov. Street address on request.</p>
-        <a id="map-a" href="https://www.google.com/maps/search/?api=1&amp;query=Bronte%20NSW%202024" target="_blank" rel="noopener">Open in Google Maps</a>
-      </div>
     </div>
   </section>
 
@@ -367,6 +372,35 @@ a{color:inherit}
   <section class="sec" id="fees">
     <h2>Fees, in plain English.</h2>
     <p>Before you sign anything, you get my fee and every marketing cost in writing, line by line. If a number changes, I ring you first.</p>
+    <div class="calc" id="calc">
+      <div>
+        <label for="c-price">Your home sells for</label><output id="c-price-o" for="c-price">$1,466,000</output>
+        <input type="range" id="c-price" min="600000" max="4000000" step="10000" value="1466000">
+        <label for="c-fee">Agent fee</label><output class="sm" id="c-fee-o" for="c-fee">2.0%</output>
+        <input type="range" id="c-fee" min="1" max="3" step="0.1" value="2">
+      </div>
+      <div class="lines" aria-live="polite">
+        <div><span>Agent fee</span><b id="c-l-fee">$29,320</b></div>
+        <div><span>Marketing (photos, online listing)</span><b>$4,500</b></div>
+        <div><span>Conveyancer</span><b>$1,800</b></div>
+        <div class="net"><span>You keep</span><b id="c-l-net">$1,430,380</b></div>
+      </div>
+    </div>
+    <p class="calc-src">Starts at Sydney's median house value, $1,466,060 (Cotality, September 2026). Marketing and conveyancer costs are typical examples, your written quote has the real ones.</p>
+  </section>
+
+  <section class="sec" id="area" aria-labelledby="area-h">
+    <h2 id="area-h">Where these homes are.</h2>
+    <p>Pins sit on the suburb, not the street. Tap a pin to see the home.</p>
+    <div class="map-box">
+      <div id="map" aria-label="Map of the three homes in Bronte, Clovelly and Waverley"></div>
+      <div class="map-card" aria-live="polite">
+        <p class="eyebrow" id="map-st">For sale</p>
+        <h3 id="map-h">Bronte, NSW 2024</h3>
+        <p id="map-p">Auction Sat 14 Nov. Street address on request.</p>
+        <a id="map-a" href="https://www.google.com/maps/search/?api=1&amp;query=Bronte%20NSW%202024" target="_blank" rel="noopener">Open in Google Maps</a>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -573,46 +607,12 @@ a{color:inherit}
 })();
 </script>
 
-<script type="module">
-// Dotted globe beside the stats. Turns slowly, pauses off screen, still frame for reduced motion.
-import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@0.6.5/+esm';
-var canvas = document.getElementById('globe');
-if (canvas){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Sydney faces the viewer at the start
-  var phi = Math.PI - (151.21 * Math.PI / 180 - Math.PI / 2), w = 0, last = 0;
-  // Keep the drawing surface square and matched to the shown size, or the globe stretches into an oval
-  function size(){ w = canvas.offsetWidth; if (w && canvas.width !== w * 2){ canvas.width = w * 2; canvas.height = w * 2; } }
-  size();
-  window.addEventListener('resize', size);
-  if ('ResizeObserver' in window) new ResizeObserver(size).observe(canvas);
-  var globe = createGlobe(canvas, {
-    devicePixelRatio: 2, width: w * 2, height: w * 2,
-    phi: phi, theta: 0.28, dark: 0, diffuse: 0.9,
-    mapSamples: 12000, mapBrightness: 12,
-    baseColor: [1, 1, 1], markerColor: [0, 0, 0], glowColor: [1, 1, 1],
-    markers: [{location: [-33.87, 151.21], size: 0.08}],
-    onRender: function(st){
-      // Same speed on 60 Hz and 120 Hz screens: about one turn a minute
-      var now = performance.now();
-      if (!reduce && last) phi += Math.min(now - last, 100) * 0.0001;
-      last = now;
-      st.phi = phi; st.width = w * 2; st.height = w * 2;
-    }
-  });
-  canvas.classList.add('on');
-  if (reduce) setTimeout(function(){ globe.toggle(false); }, 200);
-  else if ('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ last = 0; globe.toggle(es[0].isIntersecting); }).observe(canvas);
-  }
-}
-</script>
 
 <script>
-// Arrivals + count-up. Only elements still below the screen get hidden, so nothing visible ever blinks out.
+// Arrivals. Only elements still below the screen get hidden, so nothing visible ever blinks out.
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-  var pick = [].slice.call(document.querySelectorAll('.sec h2, .sec > p, .sec > div > p, .card-l, .agent figure, .agent .btn, .map-box, .form, .xrow-item, .foot-in > div'));
+  var pick = [].slice.call(document.querySelectorAll('.sec h2, .sec > p, .sec > div > p, .card-l, .agent figure, .agent .btn, .map-box, .form, .xrow-item, .calc, .foot-in > div'));
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){ if (e.isIntersecting || e.boundingClientRect.bottom < 0){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {rootMargin: '0px 0px -8% 0px', threshold: .12});
@@ -623,20 +623,26 @@ if (canvas){
     el.classList.add('rv'); io.observe(el);
   });
 
-  // Track record numbers count up once, as the section slides over the hero
-  var nums = [].slice.call(document.querySelectorAll('.stats b'));
-  var go = new IntersectionObserver(function(es){
-    if (!es[0].isIntersecting) return; go.disconnect();
-    nums.forEach(function(b){
-      var m = b.textContent.match(/^(\d+)(.*)$/); if (!m) return;
-      var end = +m[1], rest = m[2], t0 = 0, dur = 1400;
-      b.textContent = '0' + rest;
-      function step(t){ if (!t0) t0 = t; var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 4);
-        b.textContent = Math.round(end * e) + rest; if (k < 1) requestAnimationFrame(step); }
-      requestAnimationFrame(step);
-    });
-  }, {threshold: .4});
-  if (nums.length) go.observe(nums[0].closest('.stats'));
+})();
+</script>
+<script>
+// Week-by-week line fills with the scroll; cost calculator
+(function(){
+  var w = document.querySelector('.weeks');
+  if (w){
+    var ks = [].slice.call(w.querySelectorAll('.wk')), ticking = false;
+    function up(){ ticking = false; var r = w.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * .85 - r.top) / Math.max(r.height, innerHeight * .5)));
+      w.style.setProperty('--p', p.toFixed(3)); ks.forEach(function(k, i){ k.classList.toggle('hit', p >= i / ks.length); }); }
+    addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(up); } }, {passive:true}); up();
+  }
+  var price = document.getElementById('c-price'), fee = document.getElementById('c-fee');
+  if (price){
+    var $ = function(i){ return document.getElementById(i); }, f = function(n){ return '$' + Math.round(n).toLocaleString('en-AU'); };
+    function calc(){ var p = +price.value, a = p * +fee.value / 100;
+      $('c-price-o').textContent = f(p); $('c-fee-o').textContent = (+fee.value).toFixed(1) + '%';
+      $('c-l-fee').textContent = f(a); $('c-l-net').textContent = f(p - a - 4500 - 1800); }
+    price.addEventListener('input', calc); fee.addEventListener('input', calc); calc();
+  }
 })();
 </script>
 <!-- CHAT-START: scripted assistant. Replies are written in the page, nothing is sent anywhere. -->
